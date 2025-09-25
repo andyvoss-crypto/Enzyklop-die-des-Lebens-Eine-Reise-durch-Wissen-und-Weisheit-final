@@ -814,9 +814,9 @@
 
         const createLangSwitcher = () => {
             const switcherHTML = `
-                <button id="lang-menu-button" class="flex items-center justify-center w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-full" aria-haspopup="true" aria-expanded="false">
+                <button id="lang-menu-button" class="flex items-center justify-center w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-full font-bold text-sm text-slate-300" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Sprache wechseln</span>
-                    <svg class="w-5 h-5 text-slate-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l-5.25-11.25L21 21m-9-3.75h.008v.008H12v-.008z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25c-5.186 0-9.44 4.024-9.95 9.126a9.99 9.99 0 001.316 5.093" /></svg>
+                    <span id="current-lang-display">DE</span>
                 </button>
                 <ul id="lang-menu" class="absolute mt-2 w-40 bg-slate-800 border border-slate-700 rounded-lg shadow-lg py-1 hidden opacity-0 invisible" style="right: 0;">
                     ${supportedLangs.map(lang => `<li><a href="#" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700" data-lang="${lang}">${{de: 'Deutsch', en: 'English', es: 'Español', fr: 'Français', ru: 'Русский', ar: 'العربية', zh: '中文'}[lang]}</a></li>`).join('')}
@@ -831,6 +831,14 @@
                 a.classList.toggle('font-bold', a.dataset.lang === currentLang);
                 a.classList.toggle('text-teal-400', a.dataset.lang === currentLang);
             });
+            const langDisplayDesktop = document.getElementById('current-lang-display');
+            if (langDisplayDesktop) {
+                langDisplayDesktop.textContent = currentLang.toUpperCase();
+            }
+            const langDisplayMobile = document.getElementById('mobile-current-lang-display');
+            if (langDisplayMobile) {
+                langDisplayMobile.textContent = currentLang.toUpperCase();
+            }
         };
         
         const initLangSwitcher = () => {
@@ -959,5 +967,6 @@
     </script>
 </body>
 </html>
+
 
 
