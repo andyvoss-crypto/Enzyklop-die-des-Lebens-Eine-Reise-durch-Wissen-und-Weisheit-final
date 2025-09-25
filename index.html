@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enzyklopädie des Lebens: Eine Reise durch Wissen und Weisheit</title>
+    
+    <!-- SEO & Social Media Optimierungen -->
+    <meta name="description" content="Eine digitale Enzyklopädie, die Brücken schlägt zwischen alten Weisheitslehren und modernen Herausforderungen. Entdecken Sie Impulse vom Anthropozän zur Spiritualität.">
+    <meta property="og:title" content="Enzyklopädie des Lebens: Eine Reise durch Wissen und Weisheit">
+    <meta property="og:description" content="Eine digitale Enzyklopädie, die Brücken schlägt zwischen alten Weisheitslehren und modernen Herausforderungen.">
+    <meta property="og:image" content="https://placehold.co/1200x630/0a0a0a/38b2ac?text=Enzyklopädie+des+Lebens">
+    <meta property="og:url" content="https://DEINE-DOMAIN.DE"> <!-- Wichtig: Ersetze dies durch deine finale URL -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Übernommenes Design-System von "Deutschlands Zukunfts-Pakt" -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e2e8f0;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #38b2ac, #81e6d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-bg {
+            position: relative;
+            background: radial-gradient(ellipse at bottom, #1a202c 0%, #0a0a0a 70%);
+            overflow: hidden;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        .content-container {
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            background-color: rgba(26, 32, 44, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #38b2ac;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <nav id="navbar" class="sticky top-0 z-50 bg-black/70 backdrop-blur-lg border-b border-slate-800 transition-all duration-300">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <a href="#" class="text-xl font-bold gradient-text">Enzyklopädie des Lebens</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#projekt" class="nav-link text-slate-300 hover:text-white font-medium">Das Projekt</a>
+                    <a href="#themen" class="nav-link text-slate-300 hover:text-white font-medium">Themenbereiche</a>
+                    <a href="#ressourcen" class="nav-link text-slate-300 hover:text-white font-medium">Ressourcen</a>
+                    <a href="#kontakt" class="nav-link text-slate-300 hover:text-white font-medium">Kontakt</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-slate-300 hover:text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-slate-900">
+            <a href="#projekt" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Das Projekt</a>
+            <a href="#themen" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Themenbereiche</a>
+            <a href="#ressourcen" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Ressourcen</a>
+            <a href="#kontakt" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Kontakt</a>
+        </div>
+    </nav>
+
+    <header class="hero-bg min-h-screen flex items-center justify-center p-4 -mt-16">
+        <div id="particles-js"></div>
+        <div class="content-container text-center">
+            <h1 class="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-4 text-white">
+                Enzyklopädie des Lebens
+            </h1>
+            <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-6">
+                <span class="gradient-text">Eine Reise durch Wissen und Weisheit.</span>
+            </h2>
+            <p class="text-lg md:text-2xl max-w-4xl mx-auto text-slate-300 mb-8 leading-relaxed">
+                Vom Anthropozän zur Spiritualität, von globaler Wirtschaft zur Hermetik – Entdecken Sie 1000 Impulse für ein ganzheitliches Verständnis des Lebens und des Universums.
+            </p>
+            <a href="#themen" class="bg-teal-500 text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-400 transition duration-300 transform hover:scale-105">
+                Entdecke die Themen
+            </a>
+        </div>
+    </header>
+
+    <main class="py-20 md:py-32">
+        
+        <section id="projekt" class="container mx-auto px-4 mb-20 md:mb-32 scroll-mt-20">
+            <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 fade-in-up">Das <span class="gradient-text">Projekt</span></h2>
+            <p class="text-center text-slate-400 max-w-3xl mx-auto mb-12 md:mb-20 text-lg fade-in-up">Eine digitale Enzyklopädie, die Brücken schlägt zwischen alten Weisheitslehren und modernen Herausforderungen.</p>
+            
+            <div class="max-w-4xl mx-auto card p-8 md:p-12 rounded-2xl fade-in-up">
+                <div class="text-lg text-slate-300 space-y-6 text-center">
+                    <p>Diese Webseite ist eine Sammlung von 1000 Denkanstößen. Sie reflektiert eine persönliche Reise und die Expertise als HR Manager mit KI-Fokus, Mediator, systemischer Coach und vierfacher Vater.</p>
+                    <p>Ziel ist es, komplexe Zusammenhänge verständlich zu machen und Inspiration für ein bewussteres, vernetztes und erfülltes Leben zu bieten. "Blue Sky Thinking" mit KI ist hier nicht nur ein Schlagwort, sondern ein gelebter Ansatz, um neue Perspektiven zu eröffnen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="themen" class="container mx-auto px-4 mb-20 md:mb-32 scroll-mt-20">
+            <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 fade-in-up">Die <span class="gradient-text">Themenbereiche</span></h2>
+            <p class="text-center text-slate-400 max-w-3xl mx-auto mb-12 md:mb-20 text-lg fade-in-up">Entdecken Sie die Kernbereiche, die unser Leben und unsere Zukunft formen.</p>
+        
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="fade-in-up card p-8 rounded-2xl">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-400">Menschheit & Anthropozän</h3>
+                    <p class="text-slate-300">Betrachtungen zur Entwicklung der Menschheit und unserer Verantwortung im aktuellen Erdzeitalter.</p>
+                </div>
+                <div class="fade-in-up card p-8 rounded-2xl" style="transition-delay: 0.1s;">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-400">Spiritualität & Hermetik</h3>
+                    <p class="text-slate-300">Einblicke in zeitlose Weisheitslehren, spirituelle Praktiken und die Prinzipien der Hermetik.</p>
+                </div>
+                <div class="fade-in-up card p-8 rounded-2xl" style="transition-delay: 0.2s;">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-400">Wirtschaft & KI im HR</h3>
+                    <p class="text-slate-300">Analysen zu globalen Wirtschaftstrends und der transformativen Rolle von KI im Personalwesen.</p>
+                </div>
+                <div class="fade-in-up card p-8 rounded-2xl" style="transition-delay: 0.3s;">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-400">Persönlichkeit & Coaching</h3>
+                    <p class="text-slate-300">Impulse zur Persönlichkeitsentwicklung, Mediation und systemisches Coaching für private und berufliche Kontexte.</p>
+                </div>
+                <div class="fade-in-up card p-8 rounded-2xl" style="transition-delay: 0.4s;">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-400">Universum & Leben</h3>
+                    <p class="text-slate-300">Philosophische und wissenschaftliche Betrachtungen über das Universum, das Leben und unseren Platz darin.</p>
+                </div>
+                <div class="fade-in-up card p-8 rounded-2xl" style="transition-delay: 0.5s;">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-400">Vaterschaft & Familie</h3>
+                    <p class="text-slate-300">Reflexionen und Erkenntnisse aus der Perspektive eines vierfachen Vaters über Familie, Erziehung und Werte.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ressourcen" class="bg-slate-900/70 py-20 md:py-32 scroll-mt-20">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4 fade-in-up">Weiterführende <span class="gradient-text">Ressourcen</span></h2>
+                <p class="text-slate-300 max-w-4xl mx-auto mb-12 text-lg leading-relaxed fade-in-up">
+                    Hier finden Sie eine kuratierte Auswahl an Dokumenten, Papern und weiterführenden Links, die auf GitHub gehostet werden.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left fade-in-up">
+                    <div class="card p-6 rounded-xl border-teal-500 border-t-4">
+                        <h3 class="text-2xl font-bold text-white">Die Erde hat einen Parasiten.</h3>
+                        <p class="text-slate-300 mt-2">Uns.
+Dies ist keine Meinung. Dies ist eine Akte, zusammengestellt aus den geologischen Spuren und den Daten, die wir hinterlassen. Eine ungeschönte Diagnose unseres Zeitalters: dem Anthropozän.</p>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-semibold text-teal-400 hover:text-teal-300 transition">
+                            Link Text &rarr;
+                        </a>
+                    </div>
+                    <!-- Platzhalter für GitHub Links -->
+                    <div class="card p-6 rounded-xl border-teal-500 border-t-4">
+                        <h3 class="text-2xl font-bold text-white">Das Betriebssystem unseres Bewusstseins</h3>
+                        <p class="text-slate-300 mt-2">Eine Meta Analyse des Mensch seins.</p>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-semibold text-teal-400 hover:text-teal-300 transition">
+                            Infografik Ansehen &rarr;
+                        </a>
+                    </div>
+                     <div class="card p-6 rounded-xl border-teal-500 border-t-4" style="transition-delay: 0.2s;">
+                        <h3 class="text-2xl font-bold text-white">Die Insolvenzbilanz unserer Zukunft.</h3>
+                        <p class="text-slate-300 mt-2">Die unbewusste Kette von der inneren Leere zur globalen Krise — und der einzige Weg hinaus.</p>
+                         <a href="#" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-semibold text-teal-400 hover:text-teal-300 transition">
+                            SO IST ES. &rarr;
+                        </a>
+                    </div>
+                    <!-- Neue leere Buttons -->
+                    <div class="card p-6 rounded-xl border-slate-700 border-t-4">
+                        <h3 class="text-2xl font-bold text-white">Ein unbeschriebenes Blatt.</h3>
+                        <p class="text-slate-300 mt-2">Die Zukunft, geformt durch uns.</p>
+                         <a href="#" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-semibold text-teal-400 hover:text-teal-300 transition">
+                            Link Text &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="kontakt" class="container mx-auto px-4 text-center my-20 md:my-32 scroll-mt-20">
+            <div class="fade-in-up max-w-3xl mx-auto">
+                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">Interesse an einem <span class="gradient-text">Austausch?</span></h2>
+                <p class="text-slate-300 text-lg mb-8 leading-relaxed">
+                   Wenn Sie mehr erfahren oder sich vernetzen möchten, freue ich mich über eine Nachricht. Lassen Sie uns gemeinsam neue Perspektiven entdecken.
+                </p>
+                <button id="cta-button" class="bg-teal-500 text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-400 transition duration-300 transform hover:scale-105">
+                    Kontakt aufnehmen
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <section class="container mx-auto px-4 text-center mb-16 fade-in-up">
+        <h2 class="text-4xl font-black gradient-text tracking-tighter">Vom Parasit zum Hüter</h2>
+    </section>
+
+    <footer class="text-center py-8 bg-black border-t border-slate-800">
+        <p class="text-slate-500">Diese Synthese basiert auf validierten, evidenzbasierten Daten aus internationalen Gutachten und Meta-Analysen.</p>
+        <p class="text-sm text-slate-600 mt-2">Erstellt durch eine synergetische Kollaboration von menschlicher Expertise und KI-Forschungsinstanzen, um dieses Wissen für die Menschheit nutzbar zu machen.</p>
+        <p class="text-slate-500 mt-6">&copy; 2025 Andy Voß. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="contact-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[60] hidden opacity-0">
+        <div class="modal-container bg-slate-800 w-full max-w-lg p-8 rounded-2xl shadow-2xl border border-slate-700 opacity-0 transform scale-95">
+            <div class="text-right">
+                <button id="close-modal" class="text-slate-400 hover:text-white text-3xl leading-none">&times;</button>
+            </div>
+            <h3 class="text-2xl font-bold text-center mb-4 gradient-text">Kontakt</h3>
+            <div class="text-slate-300 space-y-4 text-center">
+                <p>Ich freue mich über Ihre Nachricht. Sie können mich direkt unter der folgenden E-Mail-Adresse erreichen:</p>
+                <div class="mt-6">
+                    <a id="email-link" href="#" data-user="andyvoss" data-domain="protonmail.com" class="text-lg font-bold text-teal-400 hover:text-teal-300 transition">[E-Mail-Adresse anzeigen]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // Initialisiert den Partikel-Effekt im Header
+        if (document.getElementById('particles-js')) {
+            particlesJS('particles-js', {
+              "particles": { "number": { "value": 60, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#38b2ac" }, "shape": { "type": "circle" },"opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#4a5568", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": false }, "resize": true }, "modes": { "repulse": { "distance": 100, "duration": 0.4 } } }, "retina_detect": true });
+        }
+        
+        // Intersection Observer für Fade-In Animationen beim Scrollen
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => fadeInObserver.observe(el));
+        
+        // Mobile Menü Logik
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if(mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        }
+
+        // Aktiven Navigationslink beim Scrollen hervorheben
+        const sections = document.querySelectorAll('main section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const activateNavLink = () => {
+           let index = sections.length;
+            while(--index && window.scrollY + 100 < sections[index].offsetTop) {}
+            navLinks.forEach((link) => link.classList.remove('active'));
+            if(navLinks[index]) { 
+                navLinks[index].classList.add('active');
+            }
+        };
+        window.addEventListener('scroll', activateNavLink);
+        activateNavLink(); // Initialer Aufruf
+
+        // Modal-Logik
+        const ctaButton = document.getElementById('cta-button');
+        const modal = document.getElementById('contact-modal');
+        const closeModalButton = document.getElementById('close-modal');
+        const modalOverlay = document.querySelector('.modal-overlay');
+        const modalContainer = document.querySelector('.modal-container');
+
+        const openModal = () => {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalOverlay.classList.remove('opacity-0');
+                modalContainer.classList.remove('opacity-0', 'scale-95');
+
+                // Bot-Schutz: E-Mail-Adresse dynamisch zusammensetzen
+                const emailLink = document.getElementById('email-link');
+                if (emailLink && emailLink.dataset.user && emailLink.dataset.domain) {
+                    const user = emailLink.dataset.user;
+                    const domain = emailLink.dataset.domain;
+                    const email = `${user}@${domain}`;
+                    emailLink.href = `mailto:${email}`;
+                    emailLink.textContent = email;
+                }
+            }, 10);
+        }
+
+        const closeModal = () => {
+            modalOverlay.classList.add('opacity-0');
+            modalContainer.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        if(ctaButton) {
+            ctaButton.addEventListener('click', openModal);
+        }
+        if(closeModalButton) {
+            closeModalButton.addEventListener('click', closeModal);
+        }
+        if(modalOverlay) {
+            modalOverlay.addEventListener('click', (e) => { 
+                if (e.target === modalOverlay) { 
+                    closeModal(); 
+                } 
+            });
+        }
+    });
+    </script>
+</body>
+</html>
+
+
+
