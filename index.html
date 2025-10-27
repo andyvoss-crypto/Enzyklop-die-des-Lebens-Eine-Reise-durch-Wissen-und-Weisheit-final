@@ -5,7 +5,7 @@
 
   - PDF-Download bei "Vaterschaft & Familie" hinzugefügt.
   - Mehrsprachigkeits-Skript entfernt, um die Bearbeitung zu erleichtern.
-  - SEO-relevante Tags (hreflang) wurden beibehalten.
+  - SEO-relevante Tags (hreflang) wurden entfernt.
   - Der gesamte sichtbare Text ist nun direkt im HTML-Code und nicht mehr im JavaScript.
 -->
 <html lang="de" class="scroll-smooth" dir="ltr">
@@ -22,19 +22,9 @@
     <meta property="og:description" content="Eine digitale Enzyklopädie, die Brücken schlägt zwischen alten Weisheitslehren und modernen Herausforderungen.">
     <meta property="og:image" content="https://placehold.co/1200x630/0a0a0a/38b2ac?text=Enzyklopädie+des+Lebens">
     <!-- Wichtig: Die URL muss durch die finale Domain ersetzt werden -->
-    <meta property="og:url" content="https://DEINE-DOMAIN.DE"> 
+    <meta property="og:url" content="https://andy-voss.org"> 
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Hreflang-Tags für Mehrsprachigkeit (BEIBEHALTEN FÜR SEO) -->
-    <link rel="alternate" hreflang="de" href="https://DEINE-DOMAIN.DE/?lang=de" />
-    <link rel="alternate" hreflang="en" href="https://DEINE-DOMAIN.DE/?lang=en" />
-    <link rel="alternate" hreflang="es" href="https://DEINE-DOMAIN.DE/?lang=es" />
-    <link rel="alternate" hreflang="fr" href="https://DEINE-DOMAIN.DE/?lang=fr" />
-    <link rel="alternate" hreflang="ru" href="https://DEINE-DOMAIN.DE/?lang=ru" />
-    <link rel="alternate" hreflang="ar" href="https://DEINE-DOMAIN.DE/?lang=ar" />
-    <link rel="alternate" hreflang="zh" href="https://DEINE-DOMAIN.DE/?lang=zh" />
-    <link rel="alternate" hreflang="x-default" href="https://DEINE-DOMAIN.DE/" />
 
     <!-- Strukturierte Daten (JSON-LD) für besseres Suchmaschinenverständnis -->
     <script type="application/ld+json">
@@ -42,7 +32,7 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Enzyklopädie des Lebens",
-      "url": "https://DEINE-DOMAIN.DE",
+      "url": "https://andy-voss.org",
       "abstract": "Eine digitale Enzyklopädie, die Brücken schlägt zwischen alten Weisheitslehren und modernen Herausforderungen.",
       "author": {
         "@type": "Person",
@@ -82,6 +72,56 @@
         .theme-card:hover .theme-icon { transform: scale(1.1) rotate(-5deg); filter: drop-shadow(0 0 12px rgba(129, 230, 217, 0.5)); }
         /* Verbesserte Fokus-Sichtbarkeit für Barrierefreiheit */
         :focus-visible { outline: 2px solid #38b2ac; outline-offset: 4px; border-radius: 4px; }
+
+        /* Barrierefreiheit: Animationen für Nutzer reduzieren, die dies wünschen.
+          Deaktiviert Animationen, Übergänge und den Partikel-Hintergrund.
+        */
+        @media (prefers-reduced-motion: reduce) {
+            /* Deaktiviert die meisten Übergänge und Animationen */
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            /* Stellt sicher, dass "fade-in" Elemente sofort sichtbar sind */
+            .fade-in-up {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Entfernt Hover-Transformationen von Karten */
+            .card:hover {
+                transform: none;
+            }
+            .theme-card:hover {
+                transform: none;
+                box-shadow: none; 
+            }
+            .theme-card:hover .theme-icon {
+                transform: none;
+                filter: none;
+            }
+
+            /* Partikel-Hintergrund ausblenden, um Bewegung zu stoppen */
+            #particles-js {
+                display: none;
+            }
+
+            /* Navigations-Hover-Effekt (Unterstrich) sofort anzeigen */
+            .nav-link::after {
+                transition: none;
+            }
+
+            /* Modal-Übergänge entfernen */
+            .modal-overlay,
+            .modal-container {
+                transition: none;
+            }
+        }
     </style>
 </head>
 
@@ -123,7 +163,7 @@
                 <span class="gradient-text">Eine Reise durch Wissen und Weisheit.</span>
             </h2>
             <p class="text-lg md:text-2xl max-w-4xl mx-auto text-slate-300 mb-8 leading-relaxed">
-                Vom Anthropozän zur Spiritualität, von globaler Wirtschaft zur Hermetik – Entdecken Sie 1000 Impulse für ein ganzheitliches Verständnis des Lebens und des Universums.
+                Vom Anthropozän zur Spiritualität, von globaler Wirtschaft zur Hermetik – Diese Seite dient als Portal zu den <strong>sechs Kern-Akten</strong> unserer Zeit, die <strong>zusammen</strong> die 1000 Impulse für ein ganzheitliches Verständnis des Lebens und des Universums bündeln.
             </p>
             <!-- NEUER SATZ HINZUGEFÜGT -->
             <p class="text-lg md:text-xl max-w-3xl mx-auto text-teal-200 mb-8 leading-relaxed italic font-medium">
@@ -144,7 +184,7 @@
             
             <div class="max-w-4xl mx-auto card p-8 md:p-12 rounded-2xl fade-in-up">
                 <div class="text-lg text-slate-300 space-y-6 text-center">
-                    <p>Diese Webseite ist eine Sammlung von 1000 Denkanstößen. Sie reflektiert eine persönliche Reise und die Expertise als HR Manager mit KI-Fokus, Mediator, systemischer Coach und vierfacher Vater.</p>
+                    <p>Diese Webseite dient als <strong>Einstiegsportal</strong> für ein 'Magnum Opus' von 1000 Denkanstößen, verdichtet in den hier vorgestellten Kern-Akten. Sie reflektiert eine persönliche Reise und die Expertise als HR Manager mit KI-Fokus, Mediator, systemischer Coach und vierfacher Vater.</p>
                     <!-- HIER WURDE DIE ÄNDERUNG VORGENOMMEN -->
                     <p>Ziel ist es, komplexe Zusammenhänge verständlich zu machen und Inspiration für ein bewussteres, vernetztes und erfülltes Leben zu bieten. Erstellt durch eine synergetische Kollaboration von menschlicher Expertise und KI-Forschungsinstanzen, um dieses Wissen für die Menschheit nutzbar zu machen.</p>
                 </div>
@@ -280,8 +320,11 @@
         <section id="kontakt" class="container mx-auto px-4 text-center my-20 md:my-32 scroll-mt-20">
             <div class="fade-in-up max-w-3xl mx-auto">
                  <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white"><span>Interesse an einem</span> <span class="gradient-text">Austausch?</span></h2>
-                <p class="text-slate-300 text-lg mb-8 leading-relaxed">
+                <p class="text-slate-300 text-lg mb-4 leading-relaxed">
                    Wenn Sie mehr erfahren oder sich vernetzen möchten, freue ich mich über eine Nachricht. Lassen Sie uns gemeinsam neue Perspektiven entdecken.
+                </p>
+                <p class="text-slate-400 text-base mb-8 leading-relaxed italic">
+                   Die zugrundeliegenden, evidenzbasierten Berichte, Meta-Analysen und Gutachten zu den hier vorgestellten Themen können auf Anfrage gerne bereitgestellt werden.
                 </p>
                 <button id="cta-button" class="bg-teal-500 text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-400 transition duration-300 transform hover:scale-105">
                     Kontakt aufnehmen
@@ -324,19 +367,28 @@
 
         // --- PARTIKEL, ANIMATIONEN & INTERAKTIVITÄT ---
 
-        if (document.getElementById('particles-js')) {
+        // Prüfen, ob der Nutzer reduzierte Bewegung bevorzugt, bevor Partikel initialisiert werden
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (document.getElementById('particles-js') && !prefersReducedMotion.matches) {
             particlesJS('particles-js', {"particles":{"number":{"value":60,"density":{"enable":true,"value_area":800}},"color":{"value":"#38b2ac"},"shape":{"type":"circle"},"opacity":{"value":0.4,"random":true,"anim":{"enable":true,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#4a5568","opacity":0.3,"width":1},"move":{"enable":true,"speed":2,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":false},"resize":true},"modes":{"repulse":{"distance":100,"duration":0.4}}},"retina_detect":true});
         }
         
-        const fadeInObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+        // "fade-in" Animationen nur beobachten, wenn keine reduzierte Bewegung bevorzugt wird
+        if (!prefersReducedMotion.matches) {
+            const fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        document.querySelectorAll('.fade-in-up').forEach(el => fadeInObserver.observe(el));
+            document.querySelectorAll('.fade-in-up').forEach(el => fadeInObserver.observe(el));
+        } else {
+            // Wenn Bewegung reduziert ist, alle "fade-in" Elemente sofort sichtbar machen
+            document.querySelectorAll('.fade-in-up').forEach(el => el.classList.add('visible'));
+        }
         
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
