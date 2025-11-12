@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  VEREINFACHTE, DEUTSCHE VERSION
-  ===============================
+  VERSION MIT MEHRSPRACHIGKEIT (DE/FA) - VOLLSTÄNDIG
+  ==================================================
   
-  - HINZUGEFÜGT: GSAP Preloader mit dem gewünschten Zitat.
-  - PDF-Download bei "Vaterschaft & Familie" hinzugefügt.
-  - Mehrsprachigkeits-Skript entfernt, um die Bearbeitung zu erleichtern.
-  - SEO-relevante Tags (hre_flang) wurden entfernt.
-  - Der gesamte sichtbare Text ist nun direkt im HTML-Code und nicht mehr im JavaScript.
+  - HINZUGEFÜGT: `data-key` Attribute für ALLE sichtbaren Texte.
+  - HINZUGEFÜGT: Vollständige Key-Struktur im `translations` Objekt (DE/FA).
+  - KORRIGIERT: Irreführender Kommentar im Skript entfernt.
 -->
 <html lang="de" class="scroll-smooth" dir="ltr">
 
@@ -50,22 +48,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- HINZUGEFÜGT: Vazirmatn für Persisch -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
     
-    <!-- GSAP (GreenSock Animation Platform) - HINZUGEFÜGT FÜR PRELOADER -->
+    <!-- GSAP (GreenSock Animation Platform) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e2e8f0; }
+        /* ANGEPASST: Vazirmatn als Fallback/RTL-Schrift hinzugefügt */
+        body { font-family: 'Inter', 'Vazirmatn', sans-serif; background-color: #0a0a0a; color: #e2e8f0; }
         
-        /* === PRELOADER STYLING (HINZUGEFÜGT) === */
+        /* === PRELOADER STYLING === */
         #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #0a0a0a; /* Angepasst an das dunkle Theme */
+            background-color: #0a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -78,30 +78,24 @@
             opacity: 0;
             visibility: hidden;
         }
-        
-        /* Typografische Animation */
         #preloader-text {
             font-size: 2.25rem; /* text-4xl */
             font-weight: 300;
             max-width: 700px;
             text-align: center;
             line-height: 1.3;
-            color: #e2e8f0; /* Angepasst an das dunkle Theme */
+            color: #e2e8f0;
         }
-        
-        /* Unsichtbare Buchstaben-Wrapper für GSAP */
         .char {
             opacity: 0;
             display: inline-block;
         }
-
-        /* Hauptinhalt (initial versteckt) */
         #main-content {
             opacity: 0;
             visibility: hidden;
         }
-        /* ========================================= */
-
+        
+        /* === ALLGEMEINES STYLING === */
         .gradient-text { background: linear-gradient(90deg, #38b2ac, #81e6d9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero-bg { position: relative; background: radial-gradient(ellipse at bottom, #1a202c 0%, #0a0a0a 70%); overflow: hidden; }
         #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
@@ -119,133 +113,119 @@
         .theme-card:hover { transform: translateY(-12px) scale(1.03); box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 178, 172, 0.2); border-color: rgba(56, 178, 172, 0.3); }
         .theme-icon { transition: transform 0.4s ease, filter 0.4s ease; }
         .theme-card:hover .theme-icon { transform: scale(1.1) rotate(-5deg); filter: drop-shadow(0 0 12px rgba(129, 230, 217, 0.5)); }
-        /* Verbesserte Fokus-Sichtbarkeit für Barrierefreiheit */
         :focus-visible { outline: 2px solid #38b2ac; outline-offset: 4px; border-radius: 4px; }
 
-        /* Barrierefreiheit: Animationen für Nutzer reduzieren, die dies wünschen.
-          Deaktiviert Animationen, Übergänge und den Partikel-Hintergrund.
-        */
+        /* === HINZUGEFÜGT: RTL STYLING === */
+        html[dir="rtl"] body {
+            /* Vazirmatn als primäre Schrift für RTL setzen */
+            font-family: 'Vazirmatn', 'Inter', sans-serif;
+        }
+        /* Spezifische Anpassung für Nav-Link-Unterstrich in RTL */
+        html[dir="rtl"] .nav-link::after {
+            left: auto;
+            right: 50%;
+            transform: translateX(50%);
+        }
+        /* ================================== */
+
+
         @media (prefers-reduced-motion: reduce) {
-            /* Deaktiviert die meisten Übergänge und Animationen */
-            *,
-            *::before,
-            *::after {
+            *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
-
-            /* Stellt sicher, dass "fade-in" Elemente sofort sichtbar sind */
-            .fade-in-up {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            /* Entfernt Hover-Transformationen von Karten */
-            .card:hover {
-                transform: none;
-            }
-            .theme-card:hover {
-                transform: none;
-                box-shadow: none; 
-            }
-            .theme-card:hover .theme-icon {
-                transform: none;
-                filter: none;
-            }
-
-            /* Partikel-Hintergrund ausblenden, um Bewegung zu stoppen */
-            #particles-js {
-                display: none;
-            }
-
-            /* Navigations-Hover-Effekt (Unterstrich) sofort anzeigen */
-            .nav-link::after {
-                transition: none;
-            }
-
-            /* Modal-Übergänge entfernen */
-            .modal-overlay,
-            .modal-container {
-                transition: none;
-            }
-
-            /* --- PRELOADER FÜR REDUCED MOTION --- */
-            /* Preloader sofort ausblenden */
-            #preloader {
-                opacity: 0;
-                visibility: hidden;
-            }
-            /* Hauptinhalt sofort anzeigen */
-            #main-content {
-                opacity: 1;
-                visibility: visible;
-            }
+            .fade-in-up { opacity: 1; transform: translateY(0); }
+            .card:hover { transform: none; }
+            .theme-card:hover { transform: none; box-shadow: none; }
+            .theme-card:hover .theme-icon { transform: none; filter: none; }
+            #particles-js { display: none; }
+            .nav-link::after { transition: none; }
+            .modal-overlay, .modal-container { transition: none; }
+            #preloader { opacity: 0; visibility: hidden; }
+            #main-content { opacity: 1; visibility: visible; }
         }
     </style>
 </head>
 
 <body class="antialiased">
 
-    <!-- ===== PRELOADER (HINZUGEFÜGT) ===== -->
+    <!-- ===== PRELOADER ===== -->
     <div id="preloader">
+        <!-- Dieser Text wird nicht übersetzt, da er vor dem Sprach-Script geladen wird -->
         <h1 id="preloader-text">
             "Ein System ist nur so stark wie das Bewusstsein der Menschen,<br>die es betreiben."
         </h1>
     </div>
 
-    <!-- ===== HAUPTINHALT (GEKAPSELT) ===== -->
+    <!-- ===== HAUPTINHALT ===== -->
     <div id="main-content">
 
         <nav id="navbar" class="sticky top-0 z-50 bg-black/70 backdrop-blur-lg border-b border-slate-800 transition-all duration-300">
             <div class="container mx-auto px-4">
                 <div class="flex items-center justify-between h-16">
                     <a href="#" class="text-xl font-bold gradient-text">Enzyklopädie des Lebens</a>
+                    
+                    <!-- Desktop Navigation -->
                     <div class="hidden md:flex space-x-8 items-center">
-                        <a href="#projekt" class="nav-link text-slate-300 hover:text-white font-medium">Das Projekt</a>
-                        <a href="#themen" class="nav-link text-slate-300 hover:text-white font-medium">Themenbereiche</a>
-                        <a href="#ressourcen" class="nav-link text-slate-300 hover:text-white font-medium">Ressourcen</a>
-                        <a href="#kontakt" class="nav-link text-slate-300 hover:text-white font-medium">Kontakt</a>
+                        <a href="#projekt" class="nav-link text-slate-300 hover:text-white font-medium" data-key="nav_project">Das Projekt</a>
+                        <a href="#themen" class="nav-link text-slate-300 hover:text-white font-medium" data-key="nav_topics">Themenbereiche</a>
+                        <a href="#ressourcen" class="nav-link text-slate-300 hover:text-white font-medium" data-key="nav_resources">Ressourcen</a>
+                        <a href="#kontakt" class="nav-link text-slate-300 hover:text-white font-medium" data-key="nav_contact">Kontakt</a>
+                    
+                        <!-- HINZUGEFÜGT: SPRACHUMSCHALTER Desktop -->
+                        <div class="flex space-x-2 border-l border-slate-700 pl-4 ml-4 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-4 rtl:ml-0 rtl:mr-4">
+                            <button id="lang-de" class="font-bold text-teal-400 opacity-100" data-lang="de">DE</button>
+                            <span class="text-slate-600">/</span>
+                            <button id="lang-fa" class="font-medium text-slate-400 opacity-70 hover:opacity-100" data-lang="fa">FA</button>
+                        </div>
                     </div>
+                    
+                    <!-- Mobile Menu Button -->
                     <div class="flex items-center md:hidden">
                         <button id="mobile-menu-button" class="text-slate-300 hover:text-white focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
-                            <span class="sr-only">Menü öffnen</span>
+                            <span class="sr-only" data-key="sr_open_menu">Menü öffnen</span>
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                         </button>
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile Menu -->
             <div id="mobile-menu" class="md:hidden hidden bg-slate-900">
-                <a href="#projekt" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Das Projekt</a>
-                <a href="#themen" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Themenbereiche</a>
-                <a href="#ressourcen" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Ressourcen</a>
-                <a href="#kontakt" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800">Kontakt</a>
+                <a href="#projekt" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800" data-key="nav_project">Das Projekt</a>
+                <a href="#themen" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800" data-key="nav_topics">Themenbereiche</a>
+                <a href="#ressourcen" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800" data-key="nav_resources">Ressourcen</a>
+                <a href="#kontakt" class="block py-2 px-4 text-sm text-slate-300 hover:bg-slate-800" data-key="nav_contact">Kontakt</a>
+            
+                <!-- HINZUGEFÜGT: SPRACHUMSCHALTER Mobil -->
+                <div class="flex space-x-2 justify-center py-4 border-t border-slate-800">
+                    <button id="lang-de-mobile" class="font-bold text-teal-400 opacity-100" data-lang="de">DE</button>
+                    <span class="text-slate-600">/</span>
+                    <button id="lang-fa-mobile" class="font-medium text-slate-400 opacity-70 hover:opacity-100" data-lang="fa">FA</button>
+                </div>
             </div>
         </nav>
 
         <header class="hero-bg min-h-screen flex items-center justify-center p-4 -mt-16">
             <div id="particles-js"></div>
             <div class="content-container text-center">
-                <h1 class="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-4 text-white">
+                <h1 class="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-4 text-white" data-key="hero_title">
                     Enzyklopädie des Lebens
                 </h1>
                 <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-6">
-                    <span class="gradient-text">Eine Reise durch Wissen und Weisheit.</span>
+                    <span class="gradient-text" data-key="hero_subtitle">Eine Reise durch Wissen und Weisheit.</span>
                 </h2>
                 
-                <!-- === ÄNDERUNG HIER: "acht" wurde zu "neun" === -->
-                <p class="text-lg md:text-2xl max-w-4xl mx-auto text-slate-300 mb-8 leading-relaxed">
+                <p class="text-lg md:text-2xl max-w-4xl mx-auto text-slate-300 mb-8 leading-relaxed rtl:text-right" data-key="hero_desc">
                     Vom Anthropozän zur Spiritualität, von globaler Wirtschaft zur Hermetik – Diese Seite dient als Portal zu den <strong>neun Kern-Akten</strong> unserer Zeit, die <strong>zusammen</strong> die 1000 Impulse für ein ganzheitliches Verständnis des Lebens und des Universums bündeln.
                 </p>
-                <!-- ============================================= -->
 
-                <!-- NEUER SATZ HINZUGEFÜGT -->
-                <p class="text-lg md:text-xl max-w-3xl mx-auto text-teal-200 mb-8 leading-relaxed italic font-medium">
+                <p class="text-lg md:text-xl max-w-3xl mx-auto text-teal-200 mb-8 leading-relaxed italic font-medium rtl:text-right" data-key="hero_quote">
                     Die Welt brennt, die meisten starren nur auf die Flammen, ohne das Feuer zu verstehen.
                 </p>
-                <!-- BUTTON GEÄNDERT -->
-                <a href="#ressourcen" class="bg-teal-500 text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-400 transition duration-300 transform hover:scale-105">
+                <a href="#ressourcen" class="bg-teal-500 text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-400 transition duration-300 transform hover:scale-105" data-key="hero_button">
                     Entdecke die Ressourcen
                 </a>
             </div>
@@ -254,76 +234,84 @@
         <main class="py-20 md:py-32">
             
             <section id="projekt" class="container mx-auto px-4 mb-20 md:mb-32 scroll-mt-20">
-                <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 fade-in-up"><span>Das</span> <span class="gradient-text">Projekt</span></h2>
-                <p class="text-center text-slate-400 max-w-3xl mx-auto mb-12 md:mb-20 text-lg fade-in-up">Eine digitale Enzyklopädie, die Brücken schlägt zwischen alten Weisheitslehren und modernen Herausforderungen.</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 fade-in-up">
+                    <span data-key="project_title_1">Das</span> <span class="gradient-text" data-key="project_title_2">Projekt</span>
+                </h2>
+                <p class="text-center text-slate-400 max-w-3xl mx-auto mb-12 md:mb-20 text-lg fade-in-up" data-key="project_desc">
+                    Eine digitale Enzyklopädie, die Brücken schlägt zwischen alten Weisheitslehren und modernen Herausforderungen.
+                </p>
                 
                 <div class="max-w-4xl mx-auto card p-8 md:p-12 rounded-2xl fade-in-up">
                     <div class="text-lg text-slate-300 space-y-6 text-center">
-                        <p>Diese Webseite dient als <strong>Einstiegsportal</strong> für ein 'Magnum Opus' von 1000 Denkanstößen, verdichtet in den hier vorgestellten Kern-Akten. Sie reflektiert eine persönliche Reise und die Expertise als HR Manager mit KI-Fokus, Mediator, systemischer Coach und vierfacher Vater.</p>
-                        <!-- HIER WURDE DIE ÄNDERUNG VORGENOMMEN -->
-                        <p>Ziel ist es, komplexe Zusammenhänge verständlich zu machen und Inspiration für ein bewussteres, vernetztes und erfülltes Leben zu bieten. Erstellt durch eine synergetische Kollaboration von menschlicher Expertise und KI-Forschungsinstanzen, um dieses Wissen für die Menschheit nutzbar zu machen.</p>
+                        <p data-key="project_card_p1">Diese Webseite dient als <strong>Einstiegsportal</strong> für ein 'Magnum Opus' von 1000 Denkanstößen, verdichtet in den hier vorgestellten Kern-Akten. Sie reflektiert eine persönliche Reise und die Expertise als HR Manager mit KI-Fokus, Mediator, systemischer Coach und vierfacher Vater.</p>
+                        <p data-key="project_card_p2">Ziel ist es, komplexe Zusammenhänge verständlich zu machen und Inspiration für ein bewussteres, vernetztes und erfülltes Leben zu bieten. Erstellt durch eine synergetische Kollaboration von menschlicher Expertise und KI-Forschungsinstanzen, um dieses Wissen für die Menschheit nutzbar zu machen.</p>
                     </div>
                 </div>
             </section>
 
             <section id="themen" class="container mx-auto px-4 mb-20 md:mb-32 scroll-mt-20">
-                <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 fade-in-up"><span>Die</span> <span class="gradient-text">Themenbereiche</span></h2>
-                <p class="text-center text-slate-400 max-w-3xl mx-auto mb-12 md:mb-20 text-lg fade-in-up">Entdecken Sie die Kernbereiche, die unser Leben und unsere Zukunft formen.</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 fade-in-up">
+                    <span data-key="topics_title_1">Die</span> <span class="gradient-text" data-key="topics_title_2">Themenbereiche</span>
+                </h2>
+                <p class="text-center text-slate-400 max-w-3xl mx-auto mb-12 md:mb-20 text-lg fade-in-up" data-key="topics_desc">
+                    Entdecken Sie die Kernbereiche, die unser Leben und unsere Zukunft formen.
+                </p>
             
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Thema 1 -->
-                    <div class="fade-in-up card theme-card p-8 rounded-2xl">
+                    <div class="fade-in-up card theme-card p-8 rounded-2xl rtl:text-right">
                         <div class="theme-icon mb-4 h-12 w-12 text-teal-400">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full" aria-labelledby="topic1-title"><title id="topic1-title">Menschheit & Anthropozän Icon</title><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.34-4.992 9.004 9.004 0 00-16.68 0A9.004 9.004 0 0012 21zm0-9.497V7.5M12 12.007V13.5m0-1.5a1.5 1.5 0 011.5 1.5v1.5a1.5 1.5 0 01-3 0V12a1.5 1.5 0 011.5-1.5z" /></svg>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-teal-400">Menschheit & Anthropozän</h3>
-                        <p class="text-slate-300">Betrachtungen zur Entwicklung der Menschheit und unserer Verantwortung im aktuellen Erdzeitalter.</p>
+                        <h3 class="text-2xl font-bold mb-3 text-teal-400" data-key="topic_1_title">Menschheit & Anthropozän</h3>
+                        <p class="text-slate-300" data-key="topic_1_desc">Betrachtungen zur Entwicklung der Menschheit und unserer Verantwortung im aktuellen Erdzeitalter.</p>
                     </div>
                     <!-- Thema 2 -->
-                    <div class="fade-in-up card theme-card p-8 rounded-2xl" style="transition-delay: 0.1s;">
+                    <div class="fade-in-up card theme-card p-8 rounded-2xl rtl:text-right" style="transition-delay: 0.1s;">
                         <div class="theme-icon mb-4 h-12 w-12 text-teal-400">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full" aria-labelledby="topic2-title"><title id="topic2-title">Spiritualität & Hermetik Icon</title><path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75v16.5M12 3.75c-3.473 0-6.333 2.18-7.398 5.253M12 3.75c3.473 0 6.333 2.18 7.398 5.253M12 15.75c-3.473 0-6.333-2.18-7.398-5.253M12 15.75c3.473 0 6.333-2.18 7.398 5.253" /></svg>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-teal-400">Spiritualität & Hermetik</h3>
-                        <p class="text-slate-300">Einblicke in zeitlose Weisheitslehren, spirituelle Praktiken und die Prinzipien der Hermetik.</p>
+                        <h3 class="text-2xl font-bold mb-3 text-teal-400" data-key="topic_2_title">Spiritualität & Hermetik</h3>
+                        <p class="text-slate-300" data-key="topic_2_desc">Einblicke in zeitlose Weisheitslehren, spirituelle Praktiken und die Prinzipien der Hermetik.</p>
                     </div>
                     <!-- Thema 3 -->
-                    <div class="fade-in-up card theme-card p-8 rounded-2xl" style="transition-delay: 0.2s;">
+                    <div class="fade-in-up card theme-card p-8 rounded-2xl rtl:text-right" style="transition-delay: 0.2s;">
                         <div class="theme-icon mb-4 h-12 w-12 text-teal-400">
                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full" aria-labelledby="topic3-title"><title id="topic3-title">Wirtschaft & KI Icon</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-teal-400">Wirtschaft & KI im HR</h3>
-                        <p class="text-slate-300">Analysen zu globalen Wirtschaftstrends und der transformativen Rolle von KI im Personalwesen.</p>
+                        <h3 class="text-2xl font-bold mb-3 text-teal-400" data-key="topic_3_title">Wirtschaft & KI im HR</h3>
+                        <p class="text-slate-300" data-key="topic_3_desc">Analysen zu globalen Wirtschaftstrends und der transformativen Rolle von KI im Personalwesen.</p>
                     </div>
                      <!-- Thema 4 -->
-                     <div class="fade-in-up card theme-card p-8 rounded-2xl" style="transition-delay: 0.3s;">
+                     <div class="fade-in-up card theme-card p-8 rounded-2xl rtl:text-right" style="transition-delay: 0.3s;">
                         <div class="theme-icon mb-4 h-12 w-12 text-teal-400">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full" aria-labelledby="topic4-title"><title id="topic4-title">Persönlichkeit & Coaching Icon</title><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-teal-400">Persönlichkeit & Coaching</h3>
-                        <p class="text-slate-300">Impulse zur Persönlichkeitsentwicklung, Mediation und systemisches Coaching für private und berufliche Kontexte.</p>
+                        <h3 class="text-2xl font-bold mb-3 text-teal-400" data-key="topic_4_title">Persönlichkeit & Coaching</h3>
+                        <p class="text-slate-300" data-key="topic_4_desc">Impulse zur Persönlichkeitsentwicklung, Mediation und systemisches Coaching für private und berufliche Kontexte.</p>
                     </div>
                     <!-- Thema 5 -->
-                    <div class="fade-in-up card theme-card p-8 rounded-2xl" style="transition-delay: 0.4s;">
+                    <div class="fade-in-up card theme-card p-8 rounded-2xl rtl:text-right" style="transition-delay: 0.4s;">
                         <div class="theme-icon mb-4 h-12 w-12 text-teal-400">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full" aria-labelledby="topic5-title"><title id="topic5-title">Universum & Leben Icon</title><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"></path></svg>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-teal-400">Universum & Leben</h3>
-                        <p class="text-slate-300">Philosophische und wissenschaftliche Betrachtungen über das Universum, das Leben und unseren Platz darin.</p>
+                        <h3 class="text-2xl font-bold mb-3 text-teal-400" data-key="topic_5_title">Universum & Leben</h3>
+                        <p class="text-slate-300" data-key="topic_5_desc">Philosophische und wissenschaftliche Betrachtungen über das Universum, das Leben und unseren Platz darin.</p>
                     </div>
                     <!-- Thema 6 mit PDF Download -->
-                    <div class="fade-in-up card theme-card p-8 rounded-2xl flex flex-col" style="transition-delay: 0.5s;">
+                    <div class="fade-in-up card theme-card p-8 rounded-2xl flex flex-col rtl:text-right" style="transition-delay: 0.5s;">
                         <div class="flex-grow">
                             <div class="theme-icon mb-4 h-12 w-12 text-teal-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full" aria-labelledby="topic6-title"><title id="topic6-title">Vaterschaft & Familie Icon</title><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"></path></svg>
                             </div>
-                            <h3 class="text-2xl font-bold mb-3 text-teal-400">Vaterschaft & Familie</h3>
-                            <p class="text-slate-300">Reflexionen und Erkenntnisse aus der Perspektive eines vierfachen Vaters über Familie, Erziehung und Werte.</p>
+                            <h3 class="text-2xl font-bold mb-3 text-teal-400" data-key="topic_6_title">Vaterschaft & Familie</h3>
+                            <p class="text-slate-300" data-key="topic_6_desc">Reflexionen und Erkenntnisse aus der Perspektive eines vierfachen Vaters über Familie, Erziehung und Werte.</p>
                         </div>
                         <div class="mt-6">
                             <a href="https://andyvoss-crypto.github.io/Enzyklop-die-des-Lebens-Eine-Reise-durch-Wissen-und-Weisheit-final/PDF/Die%20Neuschreibung%20des%20Menschen%20Eine%20evidenzbasierte%20Reise%20zu%20den%20Wurzeln%20unserer%20kollektiven%20Krise%20und%20dem%20Pfad%20zur%20Weisheit.pdf" 
                                target="_blank" rel="noopener noreferrer"
-                               class="inline-block bg-teal-600/50 text-teal-200 text-sm font-semibold py-2 px-4 rounded-lg hover:bg-teal-500/50 transition-colors">
+                               class="inline-block bg-teal-600/50 text-teal-200 text-sm font-semibold py-2 px-4 rounded-lg hover:bg-teal-500/50 transition-colors"
+                               data-key="topic_6_button">
                                 PDF Dokument lesen
                             </a>
                         </div>
@@ -333,109 +321,109 @@
 
             <section id="ressourcen" class="bg-slate-900/70 py-20 md:py-32 scroll-mt-20">
                 <div class="container mx-auto px-4 text-center">
-                    <h2 class="text-3xl md:text-5xl font-bold mb-4 fade-in-up"><span>Die</span> <span class="gradient-text">Akten unserer Zeit</span></h2>
-                    <p class="text-slate-300 max-w-4xl mx-auto mb-12 text-lg leading-relaxed fade-in-up">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4 fade-in-up">
+                        <span data-key="resources_title_1">Die</span> <span class="gradient-text" data-key="resources_title_2">Akten unserer Zeit</span>
+                    </h2>
+                    <p class="text-slate-300 max-w-4xl mx-auto mb-12 text-lg leading-relaxed fade-in-up" data-key="resources_desc">
                         Dies sind keine bloßen Dokumente, sondern Diagnosen und Thesenpapiere. Sie legen die Beweise für unsere globale Krise vor und skizzieren den einzigen, fundamentalen Weg aus der Sackgasse.
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left fade-in-up">
-                        <a href="https://andyvoss-crypto.github.io/Das-Anthropoz-n-Akte-des-Parasiten/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full">
+                        <a href="https://andyvoss-crypto.github.io/Das-Anthropoz-n-Akte-des-Parasiten/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full text-left rtl:text-right">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white">Die Erde hat einen Parasiten.</h3>
-                                <p class="text-slate-300 mt-2">Uns. Dies ist keine Meinung. Dies ist eine Akte, zusammengestellt aus den geologischen Spuren und den Daten, die wir hinterlassen. Eine ungeschönte Diagnose unseres Zeitalters: dem Anthropozän.</p>
+                                <h3 class="text-2xl font-bold text-white" data-key="resource_1_title">Die Erde hat einen Parasiten.</h3>
+                                <p class="text-slate-300 mt-2" data-key="resource_1_desc">Uns. Dies ist keine Meinung. Dies ist eine Akte, zusammengestellt aus den geologischen Spuren und den Daten, die wir hinterlassen. Eine ungeschönte Diagnose unseres Zeitalters: dem Anthropozän.</p>
                             </div>
                             <div class="mt-4 font-semibold text-teal-400 group-hover:text-teal-300 transition-colors duration-300">
-                                <span>SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
+                                <span data-key="resource_link">SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:translate-x-0 rtl:group-hover:-translate-x-2 rtl:inline-block rtl:rotate-180">&larr;</span>
                             </div>
                         </a>
                         
-                        <a href="https://andyvoss-crypto.github.io/Das-Betriebssystem-unseres-Bewusstseins/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full">
+                        <a href="https://andyvoss-crypto.github.io/Das-Betriebssystem-unseres-Bewusstseins/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full text-left rtl:text-right">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white">Das Betriebssystem unseres Bewusstseins</h3>
-                                <p class="text-slate-300 mt-2">Eine Meta Analyse des Mensch seins.</p>
+                                <h3 class="text-2xl font-bold text-white" data-key="resource_2_title">Das Betriebssystem unseres Bewusstseins</h3>
+                                <p class="text-slate-300 mt-2" data-key="resource_2_desc">Eine Meta Analyse des Mensch seins.</p>
                             </div>
                             <div class="mt-4 font-semibold text-teal-400 group-hover:text-teal-300 transition-colors duration-300">
-                               <span>SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
+                               <span data-key="resource_link">SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:translate-x-0 rtl:group-hover:-translate-x-2 rtl:inline-block rtl:rotate-180">&larr;</span>
                             </div>
                         </a>
                         
-                        <a href="https://andyvoss-crypto.github.io/Die-Insolvenzbilanz-unserer-Zukunft-/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full">
+                        <a href="https://andyvoss-crypto.github.io/Die-Insolvenzbilanz-unserer-Zukunft-/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full text-left rtl:text-right">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white">Die Insolvenzbilanz unserer Zukunft.</h3>
-                                <p class="text-slate-300 mt-2">Die unbewusste Kette von der inneren Leere zur globalen Krise — und der einzige Weg hinaus.</p>
+                                <h3 class="text-2xl font-bold text-white" data-key="resource_3_title">Die Insolvenzbilanz unserer Zukunft.</h3>
+                                <p class="text-slate-300 mt-2" data-key="resource_3_desc">Die unbewusste Kette von der inneren Leere zur globalen Krise — und der einzige Weg hinaus.</p>
                             </div>
                             <div class="mt-4 font-semibold text-teal-400 group-hover:text-teal-300 transition-colors duration-300">
-                                <span>SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
+                                <span data-key="resource_link">SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:translate-x-0 rtl:group-hover:-translate-x-2 rtl:inline-block rtl:rotate-180">&larr;</span>
                             </div>
                         </a>
                         
-                        <a href="https://andyvoss-crypto.github.io/Die-stille-Revolution-Eine-Reise-des-Bewusstseins/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-slate-700 border-t-4 flex flex-col h-full">
+                        <a href="https://andyvoss-crypto.github.io/Die-stille-Revolution-Eine-Reise-des-Bewusstseins/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-slate-700 border-t-4 flex flex-col h-full text-left rtl:text-right">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white">Ein unbeschriebenes Blatt.</h3>
-                                <p class="text-slate-300 mt-2">Die Zukunft, geformt durch uns.</p>
+                                <h3 class="text-2xl font-bold text-white" data-key="resource_4_title">Ein unbeschriebenes Blatt.</h3>
+                                <p class="text-slate-300 mt-2" data-key="resource_4_desc">Die Zukunft, geformt durch uns.</p>
                             </div>
                             <div class="mt-4 font-semibold text-teal-400 group-hover:text-teal-300 transition-colors duration-300">
-                               <span>SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
+                               <span data-key="resource_link">SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:translate-x-0 rtl:group-hover:-translate-x-2 rtl:inline-block rtl:rotate-180">&larr;</span>
                             </div>
                         </a>
 
-                        <a href="https://andyvoss-crypto.github.io/Synthese-des-Bewusstseins-Vom-Parasit-zum-H-ter/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full">
+                        <a href="https://andyvoss-crypto.github.io/Synthese-des-Bewusstseins-Vom-Parasit-zum-H-ter/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full text-left rtl:text-right">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white">Synthese des Bewusstseins</h3>
-                                <p class="text-slate-300 mt-2">Vom Parasit zum Hüter. Eine Betrachtung über das Leben und das Universum.</p>
+                                <h3 class="text-2xl font-bold text-white" data-key="resource_5_title">Synthese des Bewusstseins</h3>
+                                <p class="text-slate-300 mt-2" data-key="resource_5_desc">Vom Parasit zum Hüter. Eine Betrachtung über das Leben und das Universum.</p>
                             </div>
                             <div class="mt-4 font-semibold text-teal-400 group-hover:text-teal-300 transition-colors duration-300">
-                                <span>SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
+                                <span data-key="resource_link">SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:translate-x-0 rtl:group-hover:-translate-x-2 rtl:inline-block rtl:rotate-180">&larr;</span>
                             </div>
                         </a>
 
-                        <!-- === NEUER EINTRAG 1 === -->
-                        <a href="https://andyvoss-crypto.github.io/MIND.FLOW.FOCUS./" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full">
+                        <a href="https://andyvoss-crypto.github.io/MIND.FLOW.FOCUS./" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full text-left rtl:text-right">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white">MIND. FLOW. FOCUS.</h3>
-                                <p class="text-slate-300 mt-2">Einblicke in mentale Klarheit, Flow-Zustände und Konzentration.</p>
+                                <h3 class="text-2xl font-bold text-white" data-key="resource_6_title">MIND. FLOW. FOCUS.</h3>
+                                <p class="text-slate-300 mt-2" data-key="resource_6_desc">Einblicke in mentale Klarheit, Flow-Zustände und Konzentration.</p>
                             </div>
                             <div class="mt-4 font-semibold text-teal-400 group-hover:text-teal-300 transition-colors duration-300">
-                                <span>SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
+                                <span data-key="resource_link">SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:translate-x-0 rtl:group-hover:-translate-x-2 rtl:inline-block rtl:rotate-180">&larr;</span>
                             </div>
                         </a>
                         
-                        <!-- === NEUER EINTRAG 2 === -->
-                        <a href="https://andyvoss-crypto.github.io/Die-Reise-des-Menschwerdens-im-21.-Jahrhundert/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full">
+                        <a href="https://andyvoss-crypto.github.io/Die-Reise-des-Menschwerdens-im-21.-Jahrhundert/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full text-left rtl:text-right">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white">Die Reise des Menschwerdens im 21. Jahrhundert</h3>
-                                <p class="text-slate-300 mt-2">Eine Erkundung der menschlichen Existenz und Entwicklung in der modernen Zeit.</p>
+                                <h3 class="text-2xl font-bold text-white" data-key="resource_7_title">Die Reise des Menschwerdens im 21. Jahrhundert</h3>
+                                <p class="text-slate-300 mt-2" data-key="resource_7_desc">Eine Erkundung der menschlichen Existenz und Entwicklung in der modernen Zeit.</p>
                             </div>
                             <div class="mt-4 font-semibold text-teal-400 group-hover:text-teal-300 transition-colors duration-300">
-                                <span>SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
+                                <span data-key="resource_link">SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:translate-x-0 rtl:group-hover:-translate-x-2 rtl:inline-block rtl:rotate-180">&larr;</span>
                             </div>
                         </a>
                         
-                        <!-- === NEUER EINTRAG 3 (HINZUGEFÜGT) === -->
-                        <a href="https://andyvoss-crypto.github.io/Das-Gro-e-Ganze-Verstehen/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full">
+                        <a href="https://andyvoss-crypto.github.io/Das-Gro-e-Ganze-Verstehen/" target="_blank" rel="noopener noreferrer" class="group card block p-6 rounded-xl border-teal-500 border-t-4 flex flex-col h-full text-left rtl:text-right">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white">Das Große Ganze verstehen</h3>
-                                <p class="text-slate-300 mt-2">Eine Synthese, die die Punkte verbindet und einen Blick auf das Gesamtbild wirft.</p>
+                                <h3 class="text-2xl font-bold text-white" data-key="resource_8_title">Das Große Ganze verstehen</h3>
+                                <p class="text-slate-300 mt-2" data-key="resource_8_desc">Eine Synthese, die die Punkte verbindet und einen Blick auf das Gesamtbild wirft.</p>
                             </div>
                             <div class="mt-4 font-semibold text-teal-400 group-hover:text-teal-300 transition-colors duration-300">
-                                <span>SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
+                                <span data-key="resource_link">SO IST ES. !</span> <span class="inline-block transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:translate-x-0 rtl:group-hover:-translate-x-2 rtl:inline-block rtl:rotate-180">&larr;</span>
                             </div>
                         </a>
-                        <!-- ======================= -->
                     </div>
                 </div>
             </section>
             
             <section id="kontakt" class="container mx-auto px-4 text-center my-20 md:my-32 scroll-mt-20">
                 <div class="fade-in-up max-w-3xl mx-auto">
-                     <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white"><span>Interesse an einem</span> <span class="gradient-text">Austausch?</span></h2>
-                    <p class="text-slate-300 text-lg mb-4 leading-relaxed">
+                     <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">
+                        <span data-key="contact_title_1">Interesse an einem</span> <span class="gradient-text" data-key="contact_title_2">Austausch?</span>
+                    </h2>
+                    <p class="text-slate-300 text-lg mb-4 leading-relaxed" data-key="contact_p1">
                        Wenn Sie mehr erfahren oder sich vernetzen möchten, freue ich mich über eine Nachricht. Lassen Sie uns gemeinsam neue Perspektiven entdecken.
                     </p>
-                    <p class="text-slate-400 text-base mb-8 leading-relaxed italic">
+                    <p class="text-slate-400 text-base mb-8 leading-relaxed italic" data-key="contact_p2">
                        Die zugrundeliegenden, evidenzbasierten Berichte, Meta-Analysen und Gutachten zu den hier vorgestellten Themen können auf Anfrage gerne bereitgestellt werden.
                     </p>
-                    <button id="cta-button" class="bg-teal-500 text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-400 transition duration-300 transform hover:scale-105">
+                    <button id="cta-button" class="bg-teal-500 text-black font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-400 transition duration-300 transform hover:scale-105" data-key="contact_button">
                         Kontakt aufnehmen
                     </button>
                 </div>
@@ -444,28 +432,28 @@
         </main>
 
         <section class="container mx-auto px-4 text-center mb-16 fade-in-up">
-            <h2 class="text-4xl font-black gradient-text tracking-tighter">Vom Parasit zum Hüter</h2>
+            <h2 class="text-4xl font-black gradient-text tracking-tighter" data-key="final_title">Vom Parasit zum Hüter</h2>
         </section>
 
         <footer class="text-center py-8 bg-black border-t border-slate-800">
-            <p class="text-slate-500">Diese Synthese basiert auf validierten, evidenzbasierten Daten aus internationalen Gutachten und Meta-Analysen.</p>
-            <p class="text-sm text-slate-600 mt-2">Erstellt durch eine synergetische Kollaboration von menschlicher Expertise und KI-Forschungsinstanzen, um dieses Wissen für die Menschheit nutzbar zu machen.</p>
-            <p class="text-slate-500 mt-6">&copy; 2025 Andy Voß. Alle Rechte vorbehalten.</p>
+            <p class="text-slate-500" data-key="footer_p1">Diese Synthese basiert auf validierten, evidenzbasierten Daten aus internationalen Gutachten und Meta-Analysen.</p>
+            <p class="text-sm text-slate-600 mt-2" data-key="footer_p2">Erstellt durch eine synergetische Kollaboration von menschlicher Expertise und KI-Forschungsinstanzen, um dieses Wissen für die Menschheit nutzbar zu machen.</p>
+            <p class="text-slate-500 mt-6" data-key="footer_p3">&copy; 2025 Andy Voß. Alle Rechte vorbehalten.</p>
         </footer>
 
-        <!-- Modal für Kontaktinformationen -->
+        <!-- Modal -->
         <div id="contact-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[60] hidden opacity-0" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div class="modal-container bg-slate-800 w-full max-w-lg p-8 rounded-2xl shadow-2xl border border-slate-700 opacity-0 transform scale-95">
-                <div class="text-right">
+                <div class="text-right rtl:text-left">
                     <button id="close-modal" class="text-slate-400 hover:text-white text-3xl leading-none" aria-label="Dialog schließen">&times;</button>
                 </div>
-                <h3 id="modal-title" class="text-2xl font-bold text-center mb-4 gradient-text">Kontakt</h3>
+                <h3 id="modal-title" class="text-2xl font-bold text-center mb-4 gradient-text" data-key="modal_title">Kontakt</h3>
                 <div class="text-slate-300 space-y-4 text-center">
                     <p>
-                        <span>Ich freue mich über Ihre Nachricht. Meine persönliche Sicht der Dinge, die dieser Seite zugrunde liegt, finden Sie </span><a href="https://andyvoss-crypto.github.io/Die-Neue-Geschichte-des-Menschen-Eine-Reise-zu-unseren-Wurzeln/" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:underline">hier</a>.
+                        <span data-key="modal_p1_span">Ich freue mich über Ihre Nachricht. Meine persönliche Sicht der Dinge, die dieser Seite zugrunde liegt, finden Sie </span><a href="https://andyvoss-crypto.github.io/Die-Neue-Geschichte-des-Menschen-Eine-Reise-zu-unseren-Wurzeln/" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:underline" data-key="modal_p1_link">hier</a>.
                     </p>
-                    <p>Sie können mich direkt unter der folgenden E-Mail-Adresse erreichen:</p>
-                    <a id="email-link" href="#" data-user="andyvoss" data-domain="protonmail.com" class="text-lg font-bold text-teal-400 hover:text-teal-300 transition">[E-Mail-Adresse anzeigen]</a>
+                    <p data-key="modal_p2">Sie können mich direkt unter der folgenden E-Mail-Adresse erreichen:</p>
+                    <a id="email-link" href="#" data-user="andyvoss" data-domain="protonmail.com" class="text-lg font-bold text-teal-400 hover:text-teal-300 transition" data-key="modal_email_placeholder">[E-Mail-Adresse anzeigen]</a>
                 </div>
             </div>
         </div>
@@ -474,93 +462,285 @@
         <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- PRELOADER ANIMATION (HINZUGEFÜGT) ---
+            // --- HINZUGEFÜGT: MEHRSPRACHIGKEIT (DE/FA) ---
+            
+            const translations = {
+                de: {
+                    // Nav
+                    sr_open_menu: "Menü öffnen",
+                    nav_project: "Das Projekt",
+                    nav_topics: "Themenbereiche",
+                    nav_resources: "Ressourcen",
+                    nav_contact: "Kontakt",
+                    // Hero
+                    hero_title: "Enzyklopädie des Lebens",
+                    hero_subtitle: "Eine Reise durch Wissen und Weisheit.",
+                    hero_desc: "Vom Anthropozän zur Spiritualität, von globaler Wirtschaft zur Hermetik – Diese Seite dient als Portal zu den <strong>neun Kern-Akten</strong> unserer Zeit, die <strong>zusammen</strong> die 1000 Impulse für ein ganzheitliches Verständnis des Lebens und des Universums bündeln.",
+                    hero_quote: "Die Welt brennt, die meisten starren nur auf die Flammen, ohne das Feuer zu verstehen.",
+                    hero_button: "Entdecke die Ressourcen",
+                    // Projekt Section
+                    project_title_1: "Das",
+                    project_title_2: "Projekt",
+                    project_desc: "Eine digitale Enzyklopädie, die Brücken schlägt zwischen alten Weisheitslehren und modernen Herausforderungen.",
+                    project_card_p1: "Diese Webseite dient als <strong>Einstiegsportal</strong> für ein 'Magnum Opus' von 1000 Denkanstößen, verdichtet in den hier vorgestellten Kern-Akten. Sie reflektiert eine persönliche Reise und die Expertise als HR Manager mit KI-Fokus, Mediator, systemischer Coach und vierfacher Vater.",
+                    project_card_p2: "Ziel ist es, komplexe Zusammenhänge verständlich zu machen und Inspiration für ein bewussteres, vernetztes und erfülltes Leben zu bieten. Erstellt durch eine synergetische Kollaboration von menschlicher Expertise und KI-Forschungsinstanzen, um dieses Wissen für die Menschheit nutzbar zu machen.",
+                    // Themen Section
+                    topics_title_1: "Die",
+                    topics_title_2: "Themenbereiche",
+                    topics_desc: "Entdecken Sie die Kernbereiche, die unser Leben und unsere Zukunft formen.",
+                    topic_1_title: "Menschheit & Anthropozän",
+                    topic_1_desc: "Betrachtungen zur Entwicklung der Menschheit und unserer Verantwortung im aktuellen Erdzeitalter.",
+                    topic_2_title: "Spiritualität & Hermetik",
+                    topic_2_desc: "Einblicke in zeitlose Weisheitslehren, spirituelle Praktiken und die Prinzipien der Hermetik.",
+                    topic_3_title: "Wirtschaft & KI im HR",
+                    topic_3_desc: "Analysen zu globalen Wirtschaftstrends und der transformativen Rolle von KI im Personalwesen.",
+                    topic_4_title: "Persönlichkeit & Coaching",
+                    topic_4_desc: "Impulse zur Persönlichkeitsentwicklung, Mediation und systemisches Coaching für private und berufliche Kontexte.",
+                    topic_5_title: "Universum & Leben",
+                    topic_5_desc: "Philosophische und wissenschaftliche Betrachtungen über das Universum, das Leben und unseren Platz darin.",
+                    topic_6_title: "Vaterschaft & Familie",
+                    topic_6_desc: "Reflexionen und Erkenntnisse aus der Perspektive eines vierfachen Vaters über Familie, Erziehung und Werte.",
+                    topic_6_button: "PDF Dokument lesen",
+                    // Ressourcen Section
+                    resources_title_1: "Die",
+                    resources_title_2: "Akten unserer Zeit",
+                    resources_desc: "Dies sind keine bloßen Dokumente, sondern Diagnosen und Thesenpapiere. Sie legen die Beweise für unsere globale Krise vor und skizzieren den einzigen, fundamentalen Weg aus der Sackgasse.",
+                    resource_link: "SO IST ES. !",
+                    resource_1_title: "Die Erde hat einen Parasiten.",
+                    resource_1_desc: "Uns. Dies ist keine Meinung. Dies ist eine Akte, zusammengestellt aus den geologischen Spuren und den Daten, die wir hinterlassen. Eine ungeschönte Diagnose unseres Zeitalters: dem Anthropozän.",
+                    resource_2_title: "Das Betriebssystem unseres Bewusstseins",
+                    resource_2_desc: "Eine Meta Analyse des Mensch seins.",
+                    resource_3_title: "Die Insolvenzbilanz unserer Zukunft.",
+                    resource_3_desc: "Die unbewusste Kette von der inneren Leere zur globalen Krise — und der einzige Weg hinaus.",
+                    resource_4_title: "Ein unbeschriebenes Blatt.",
+                    resource_4_desc: "Die Zukunft, geformt durch uns.",
+                    resource_5_title: "Synthese des Bewusstseins",
+                    resource_5_desc: "Vom Parasit zum Hüter. Eine Betrachtung über das Leben und das Universum.",
+                    resource_6_title: "MIND. FLOW. FOCUS.",
+                    resource_6_desc: "Einblicke in mentale Klarheit, Flow-Zustände und Konzentration.",
+                    resource_7_title: "Die Reise des Menschwerdens im 21. Jahrhundert",
+                    resource_7_desc: "Eine Erkundung der menschlichen Existenz und Entwicklung in der modernen Zeit.",
+                    resource_8_title: "Das Große Ganze verstehen",
+                    resource_8_desc: "Eine Synthese, die die Punkte verbindet und einen Blick auf das Gesamtbild wirft.",
+                    // Kontakt Section
+                    contact_title_1: "Interesse an einem",
+                    contact_title_2: "Austausch?",
+                    contact_p1: "Wenn Sie mehr erfahren oder sich vernetzen möchten, freue ich mich über eine Nachricht. Lassen Sie uns gemeinsam neue Perspektiven entdecken.",
+                    contact_p2: "Die zugrundeliegenden, evidenzbasierten Berichte, Meta-Analysen und Gutachten zu den hier vorgestellten Themen können auf Anfrage gerne bereitgestellt werden.",
+                    contact_button: "Kontakt aufnehmen",
+                    // Final Title
+                    final_title: "Vom Parasit zum Hüter",
+                    // Footer
+                    footer_p1: "Diese Synthese basiert auf validierten, evidenzbasierten Daten aus internationalen Gutachten und Meta-Analysen.",
+                    footer_p2: "Erstellt durch eine synergetische Kollaboration von menschlicher Expertise und KI-Forschungsinstanzen, um dieses Wissen für die Menschheit nutzbar zu machen.",
+                    footer_p3: "&copy; 2025 Andy Voß. Alle Rechte vorbehalten.",
+                    // Modal
+                    modal_title: "Kontakt",
+                    modal_p1_span: "Ich freue mich über Ihre Nachricht. Meine persönliche Sicht der Dinge, die dieser Seite zugrunde liegt, finden Sie ",
+                    modal_p1_link: "hier",
+                    modal_p2: "Sie können mich direkt unter der folgenden E-Mail-Adresse erreichen:",
+                    modal_email_placeholder: "[E-Mail-Adresse anzeigen]",
+                },
+                fa: { // Persische Übersetzungen (VOLLSTÄNDIG)
+                    // Nav
+                    sr_open_menu: " باز کردن منو",
+                    nav_project: "پروژه",
+                    nav_topics: "حوزه‌های موضوعی",
+                    nav_resources: "منابع",
+                    nav_contact: "تماس",
+                    // Hero
+                    hero_title: "دانشنامه زندگی",
+                    hero_subtitle: "سفری در دانش و خرد.",
+                    hero_desc: "از آنتروپوسن تا معنویت، از اقتصاد جهانی تا هرمتیسم – این سایت به عنوان دروازه‌ای به <strong>نُه پرونده اصلی</strong> دوران ما عمل می‌کند که <strong>با هم</strong> ۱۰۰۰ انگیزه را برای درک جامع زندگی و جهان هستی گرد هم می‌آورند.",
+                    hero_quote: "جهان در حال سوختن است، بیشتر مردم فقط به شعله‌ها خیره شده‌اند، بدون اینکه آتش را بفهمند.",
+                    hero_button: "کشف منابع",
+                    // Projekt Section
+                    project_title_1: "", // "Das" weglassen
+                    project_title_2: "پروژه", // "Projekt" mit Gradient
+                    project_desc: "یک دانشنامه دیجیتال که پلی میان آموزه‌های خرد باستانی و چالش‌های مدرن ایجاد می‌کند.",
+                    project_card_p1: "این وب‌سایت به عنوان <strong>دروازه ورودی</strong> برای یک 'شاهکار' متشکل از ۱۰۰۰ انگیزه فکری عمل می‌کند که در پرونده‌های اصلی ارائه‌شده در اینجا فشرده شده‌اند. این بازتابی از یک سفر شخصی و تخصص به عنوان مدیر منابع انسانی با تمرکز بر هوش مصنوعی، میانجی، مربی سیستمی و پدر چهار فرزند است.",
+                    project_card_p2: "هدف، قابل فهم ساختن ارتباطات پیچیده و ارائه الهام برای یک زندگی آگاهانه‌تر، مرتبط‌تر و رضایت‌بخش‌تر است. ایجاد شده از طریق همکاری هم‌افزای تخصص انسانی و نمونه‌های تحقیقاتی هوش مصنوعی تا این دانش برای بشریت قابل استفاده باشد.",
+                    // Themen Section
+                    topics_title_1: "",
+                    topics_title_2: "حوزه‌های موضوعی",
+                    topics_desc: "بخش‌های اصلی را که زندگی و آینده ما را شکل می‌ده دهند، کشف کنید.",
+                    topic_1_title: "بشریت و آنتروپوسن",
+                    topic_1_desc: "تأملاتی در مورد توسعه بشریت و مسئولیت ما در عصر کنونی زمین.",
+                    topic_2_title: "معنویت و هرمتیسم",
+                    topic_2_desc: "بینش‌هایی در مورد آموزه‌های خرد جاودانه، اعمال معنوی و اصول هرمتیسم.",
+                    topic_3_title: "اقتصاد و هوش مصنوعی در منابع انسانی",
+                    topic_3_desc: "تحلیل‌هایی در مورد روندهای اقتصاد جهانی و نقش تحول‌آفرین هوش مصنوعی در مدیریت منابع انسانی.",
+                    topic_4_title: "شخصیت و مربیگری",
+                    topic_4_desc: "انگیزه‌هایی برای توسعه شخصیت، میانجیگری و مربیگری سیستمی برای زمینه‌های خصوصی و حرفه‌ای.",
+                    topic_5_title: "جهان هستی و زندگی",
+                    topic_5_desc: "تأملات فلسفی و علمی درباره جهان هستی، زندگی و جایگاه ما در آن.",
+                    topic_6_title: "پدر بودن و خانواده",
+                    topic_6_desc: "تأملات و آموخته‌ها از دیدگاه یک پدر چهار فرزند درباره خانواده، تربیت و ارزش‌ها.",
+                    topic_6_button: "خواندن سند PDF",
+                    // Ressourcen Section
+                    resources_title_1: "",
+                    resources_title_2: "پرونده‌های دوران ما",
+                    resources_desc: "این‌ها صرفاً اسناد نیستند، بلکه تشخیص‌ها و مقالات نظری هستند. آن‌ها شواهد بحران جهانی ما را ارائه می‌دهند و تنها راه اساسی خروج از بن‌بست را ترسیم می‌کنند.",
+                    resource_link: "همینطور است!",
+                    resource_1_title: "زمین یک انگل دارد.",
+                    resource_1_desc: "ما. این یک نظر نیست. این یک پرونده است، گردآوری شده از آثار زمین‌شناسی و داده‌هایی که از خود به جای گذاشته‌ایم. یک تشخیص بی‌پرده از دوران ما: آنتروپوسن.",
+                    resource_2_title: "سیستم عامل آگاهی ما",
+                    resource_2_desc: "یک فرا تحلیل از انسان بودن.",
+                    resource_3_title: "ترازنامه ورشکستگی آینده ما.",
+                    resource_3_desc: "زنجیره ناخودآگاه از خلاء درونی تا بحران جهانی - و تنها راه خروج.",
+                    resource_4_title: "یک برگ نانوشته.",
+                    resource_4_desc: "آینده، شکل گرفته توسط ما.",
+                    resource_5_title: "سنتز آگاهی",
+                    resource_5_desc: "از انگل تا نگهبان. تأملی درباره زندگی و جهان هستی.",
+                    resource_6_title: "ذهن. جریان. تمرکز.",
+                    resource_6_desc: "بینش‌هایی در مورد وضوح ذهنی، حالات جریان و تمرکز.",
+                    resource_7_title: "سفر انسان شدن در قرن ۲۱",
+                    resource_7_desc: "کاوشی در مورد وجود و توسعه انسان در عصر مدرن.",
+                    resource_8_title: "درک تصویر بزرگ",
+                    resource_8_desc: "سنتزی که نقاط را به هم متصل می‌کند و نگاهی به تصویر کلی می‌اندازد.",
+                    // Kontakt Section
+                    contact_title_1: "علاقه به",
+                    contact_title_2: "گفتگو دارید؟",
+                    contact_p1: "اگر مایل به کسب اطلاعات بیشتر یا شبکه‌سازی هستید، خوشحال می‌شوم پیام شما را دریافت کنم. بیایید با هم دیدگاه‌های جدیدی کشف کنیم.",
+                    contact_p2: "گزارش‌های مستند، فرا تحلیل‌ها و کارشناسی‌های مبتنی بر شواهد که اساس موضوعات ارائه‌شده در اینجا هستند، در صورت درخواست قابل ارائه می‌باشند.",
+                    contact_button: "برقراری تماس",
+                    // Final Title
+                    final_title: "از انگل تا نگهبان",
+                    // Footer
+                    footer_p1: "این سنتز بر اساس داده‌های معتبر و مبتنی بر شواهد از کارشناسی‌های بین‌المللی و فرا تحلیل‌ها استوار است.",
+                    footer_p2: "ایجاد شده از طریق همکاری هم‌افزای تخصص انسانی و نمونه‌های تحقیقاتی هوش مصنوعی تا این دانش برای بشریت قابل استفاده باشد.",
+                    footer_p3: "© ۲۰۲۵ اندی فوس. تمام حقوق محفوظ است.",
+                    // Modal
+                    modal_title: "تماس",
+                    modal_p1_span: "از پیام شما خوشحال می‌شوم. دیدگاه شخصی من که اساس این صفحه است را می‌توانید ",
+                    modal_p1_link: "اینجا",
+                    modal_p2: "می‌توانید مستقیماً از طریق آدرس ایمیل زیر با من تماس بگیرید:",
+                    modal_email_placeholder: "[نمایش آدرس ایمیل]",
+                }
+            };
+
+            const langButtons = [
+                document.getElementById('lang-de'),
+                document.getElementById('lang-fa'),
+                document.getElementById('lang-de-mobile'),
+                document.getElementById('lang-fa-mobile')
+            ];
+
+            const setLanguage = (lang) => {
+                if (!translations[lang]) {
+                    console.error(`Sprache ${lang} nicht gefunden.`);
+                    return;
+                }
+
+                // 1. HTML-Tag Attribute setzen (Sprache & Layout-Richtung)
+                document.documentElement.setAttribute('lang', lang);
+                document.documentElement.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
+
+                // 2. Texte ersetzen
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.getAttribute('data-key');
+                    if (translations[lang][key] !== undefined) {
+                        // WICHTIG: .innerHTML verwenden, da manche Texte <strong> Tags enthalten
+                        element.innerHTML = translations[lang][key];
+                    }
+                });
+
+                // 3. Button-Stile anpassen
+                langButtons.forEach(btn => {
+                    if (btn) {
+                        if (btn.getAttribute('data-lang') === lang) {
+                            btn.classList.add('font-bold', 'text-teal-400', 'opacity-100');
+                            btn.classList.remove('font-medium', 'text-slate-400', 'opacity-70', 'hover:opacity-100');
+                        } else {
+                            btn.classList.add('font-medium', 'text-slate-400', 'opacity-70', 'hover:opacity-100');
+                            btn.classList.remove('font-bold', 'text-teal-400', 'opacity-100');
+                        }
+                    }
+                });
+                
+                // 4. Sprache im localStorage speichern
+                try {
+                    localStorage.setItem('encyclopedia_lang', lang);
+                } catch (e) {
+                    console.warn("Speichern der Sprache im localStorage fehlgeschlagen.", e);
+                }
+            };
+
+            // 5. Event Listeners für Buttons
+            langButtons.forEach(btn => {
+                if(btn) {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault(); // Verhindert ggf. Scrollen oder andere Standardaktionen
+                        const lang = btn.getAttribute('data-lang');
+                        setLanguage(lang);
+                    });
+                }
+            });
+
+            // 6. Sprache beim Laden der Seite setzen
+            let savedLang = 'de'; // Standard
+            try {
+                 savedLang = localStorage.getItem('encyclopedia_lang') || 'de';
+            } catch (e) {
+                console.warn("Lesen der Sprache aus dem localStorage fehlgeschlagen.", e);
+            }
+            
+            // Sprache sofort setzen. Die Texte werden aktualisiert, bevor der Preloader fertig ist.
+            setLanguage(savedLang);
+
+            // --- ENDE MEHRSPRACHIGKEIT ---
+
+
+            // --- PRELOADER ANIMATION ---
             const preloader = document.getElementById('preloader');
             const preloaderText = document.getElementById('preloader-text');
             const mainContent = document.getElementById('main-content');
 
-            // 1. Text in Buchstaben aufteilen (mit <br> Unterstützung) - MODIFIZIERT
-            const nodes = Array.from(preloaderText.childNodes); // Alle Kind-Knoten holen (Textknoten, <br>)
-            preloaderText.textContent = ''; // Container leeren
-
+            // 1. Text in Buchstaben aufteilen
+            const nodes = Array.from(preloaderText.childNodes);
+            preloaderText.textContent = ''; 
             nodes.forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE) { // Wenn es ein Textknoten ist
+                if (node.nodeType === Node.TEXT_NODE) {
                     const text = node.textContent;
-                    // Nach Wörtern trennen, leere Strings entfernen (falls mehrere Leerzeichen existieren)
                     const words = text.split(' ').filter(word => word.length > 0); 
-
                     words.forEach((word, index) => {
-                        // 1. Einen Wrapper für das Wort erstellen, der nicht umbrochen wird
                         const wordWrapper = document.createElement('span');
-                        wordWrapper.style.whiteSpace = 'nowrap'; // Verhindert Umbruch *innerhalb* des Wortes
-
-                        // 2. Das Wort in Buchstaben aufteilen (für die Animation)
+                        wordWrapper.style.whiteSpace = 'nowrap'; 
                         word.split('').forEach(char => {
                             const span = document.createElement('span');
                             span.className = 'char';
                             span.textContent = char;
                             wordWrapper.appendChild(span);
                         });
-                        
                         preloaderText.appendChild(wordWrapper);
-
-                        // 3. Ein Leerzeichen (als animierbarer char) nach dem Wort hinzufügen
                         if (index < words.length - 1) {
                             const spaceSpan = document.createElement('span');
-                            spaceSpan.className = 'char'; // Nimmt an der Animation teil
-                            spaceSpan.innerHTML = '&nbsp;'; // Stellt das Leerzeichen dar
+                            spaceSpan.className = 'char';
+                            spaceSpan.innerHTML = '&nbsp;';
                             preloaderText.appendChild(spaceSpan);
                         }
                     });
-
-                } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR') { // <br> Tag
+                } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR') {
                     preloaderText.appendChild(document.createElement('br'));
                 }
             });
-            // --- ENDE DER MODIFIKATION ---
-
 
             // 2. GSAP Timeline für Preloader
             const preloaderTl = gsap.timeline();
             preloaderTl
-                .to(".char", {
-                    opacity: 1,
-                    stagger: 0.05,
-                    ease: "power1.inOut"
-                })
-                .to(".char", {
-                    fontWeight: 700,
-                    stagger: {
-                        each: 0.05,
-                        from: "random"
-                    },
-                    repeat: 1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                }, "-=1.5") // Startet während die Buchstaben erscheinen
-                .to(preloader, {
-                    opacity: 0,
-                    duration: 0.5,
-                    onComplete: () => {
-                        preloader.classList.add('hidden');
-                    }
-                }, "+=0.5") // 0.5s warten nach der Animation
-                .to(mainContent, {
-                    opacity: 1,
-                    visibility: 'visible',
-                    duration: 0.5
-                }, "-=0.5"); // Gleichzeitig mit Preloader-Fade-Out
+                .to(".char", { opacity: 1, stagger: 0.05, ease: "power1.inOut" })
+                .to(".char", { fontWeight: 700, stagger: { each: 0.05, from: "random" }, repeat: 1, yoyo: true, ease: "sine.inOut" }, "-=1.5")
+                .to(preloader, { opacity: 0, duration: 0.5, onComplete: () => preloader.classList.add('hidden') }, "+=0.5")
+                .to(mainContent, { opacity: 1, visibility: 'visible', duration: 0.5 }, "-=0.5");
             
             // --- PARTIKEL, ANIMATIONEN & INTERAKTIVITÄT ---
 
-            // Prüfen, ob der Nutzer reduzierte Bewegung bevorzugt, bevor Partikel initialisiert werden
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
             if (document.getElementById('particles-js') && !prefersReducedMotion.matches) {
                 particlesJS('particles-js', {"particles":{"number":{"value":60,"density":{"enable":true,"value_area":800}},"color":{"value":"#38b2ac"},"shape":{"type":"circle"},"opacity":{"value":0.4,"random":true,"anim":{"enable":true,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#4a5568","opacity":0.3,"width":1},"move":{"enable":true,"speed":2,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":false},"resize":true},"modes":{"repulse":{"distance":100,"duration":0.4}}},"retina_detect":true});
             }
             
-            // "fade-in" Animationen nur beobachten, wenn keine reduzierte Bewegung bevorzugt wird
             if (!prefersReducedMotion.matches) {
                 const fadeInObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -569,10 +749,8 @@
                         }
                     });
                 }, { threshold: 0.1 });
-
                 document.querySelectorAll('.fade-in-up').forEach(el => fadeInObserver.observe(el));
             } else {
-                // Wenn Bewegung reduziert ist, alle "fade-in" Elemente sofort sichtbar machen
                 document.querySelectorAll('.fade-in-up').forEach(el => el.classList.add('visible'));
             }
             
@@ -584,6 +762,16 @@
                     mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
                  });
             }
+
+            // Schließe das mobile Menü, wenn auf einen Link geklickt wird
+            document.querySelectorAll('#mobile-menu a, #mobile-menu button[data-lang]').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
 
             const sections = document.querySelectorAll('main section');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -625,8 +813,17 @@
             const closeModal = () => {
                 modalOverlay.classList.add('opacity-0');
                 modalContainer.classList.add('opacity-0', 'scale-95');
-                setTimeout(() => { modal.classList.add('hidden'); }, 300);
-                ctaButton.focus();
+                setTimeout(() => { 
+                    modal.classList.add('hidden');
+                    // Setze den Text des E-Mail-Links auf den Platzhalter zurück
+                    const emailLink = document.getElementById('email-link');
+                    const currentLang = document.documentElement.lang || 'de';
+                    if (emailLink && translations[currentLang] && translations[currentLang].modal_email_placeholder) {
+                        emailLink.textContent = translations[currentLang].modal_email_placeholder;
+                        emailLink.removeAttribute('href');
+                    }
+                }, 300);
+                if(ctaButton) ctaButton.focus(); // Nur fokussieren, wenn ctaButton existiert
             }
 
             if(ctaButton) ctaButton.addEventListener('click', openModal);
